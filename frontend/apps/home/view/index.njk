@@ -1,0 +1,175 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+
+<style>
+    /* Estilos customizados para centralizar o conteúdo e estilizar os cards */
+    .dashboard-container {
+        padding-top: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .action-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+        border-radius: 10px;
+        min-height: 150px; 
+        display: flex;
+        flex-direction: column;
+    }
+    .action-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    .card-icon {
+        font-size: 2rem;
+        margin-bottom: 5px;
+    }
+    .card-footer {
+        margin-top: auto; 
+        padding: 0.5rem 1.25rem;
+        font-weight: bold;
+    }
+</style>
+
+<div class="dashboard-container">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Menu Principal | Gestão de Acervo da Biblioteca</li>
+    </ol>
+    
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-6 mb-3">Gerenciamento de Biblioteca DW3</h1>
+            <p class="lead text-muted">
+                Selecione a operação desejada para as tabelas **Autor**, **Leitor**, **Livro** e **Empréstimo**.
+            </p>
+        </div>
+    </div>
+
+    <h2 class="h4 mb-3 text-primary border-bottom pb-2">1. Consultar e Listar Dados</h2>
+
+    <div class="row justify-content-center g-4 mb-5">
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-center action-card shadow-sm border-primary" 
+                 onclick="window.location.href='/autores/ConsultaAutor'">
+                <div class="card-body py-3">
+                    <i class="fas fa-search card-icon text-primary"></i>
+                    <h5 class="card-title mb-1">Listar Autores</h5>
+                    <p class="card-text text-muted small">Visualizar todos os autores no sistema.</p>
+                </div>
+                <div class="card-footer bg-primary text-white">Acessar Consulta</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-center action-card shadow-sm border-primary" 
+                 onclick="window.location.href='/leitores/ConsultaLeitor'">
+                <div class="card-body py-3">
+                    <i class="fas fa-search card-icon text-primary"></i>
+                    <h5 class="card-title mb-1">Listar Leitores</h5>
+                    <p class="card-text text-muted small">Visualizar usuários da biblioteca.</p>
+                </div>
+                <div class="card-footer bg-primary text-white">Acessar Consulta</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-center action-card shadow-sm border-info" 
+                 onclick="window.location.href='/livros/ConsultaLivro'">
+                <div class="card-body py-3">
+                    <i class="fas fa-book card-icon text-info"></i>
+                    <h5 class="card-title mb-1">Consultar Livros</h5>
+                    <p class="card-text text-muted small">Ver catálogo e informações de acervo.</p>
+                </div>
+                <div class="card-footer bg-info text-white">Acessar Catálogo</div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-center action-card shadow-sm border-info" 
+                 onclick="window.location.href='/emprestimos/ConsultaEmprestimo'">
+                <div class="card-body py-3">
+                    <i class="fas fa-exchange-alt card-icon text-info"></i>
+                    <h5 class="card-title mb-1">Consultar Empréstimos</h5>
+                    <p class="card-text text-muted small">Status e histórico das transações .</p>
+                </div>
+                <div class="card-footer bg-info text-white">Acessar Consulta</div>
+            </div>
+        </div>
+    </div>
+
+
+    <h2 class="h4 mb-3 text-success border-bottom pb-2">2. Gerenciamento e Manutenção </h2>
+
+    <div class="row justify-content-center g-4">
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-center action-card shadow-sm border-success" 
+                 onclick="window.location.href='/autores/ManutAutor'">
+                <div class="card-body py-3">
+                    <i class="fas fa-pen card-icon text-success"></i>
+                    <h5 class="card-title mb-1">Manutenção de Autores</h5>
+                    <p class="card-text text-muted small">Formulário: Cadastrar, editar, excluir.</p>
+                </div>
+                <div class="card-footer bg-success text-white">Acessar Formulário</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-center action-card shadow-sm border-success" 
+                 onclick="window.location.href='/leitores/ManutLeitor'">
+                <div class="card-body py-3">
+                    <i class="fas fa-pen card-icon text-success"></i>
+                    <h5 class="card-title mb-1">Manutenção de Leitores</h5>
+                    <p class="card-text text-muted small">Formulário: Cadastrar novos leitores.</p>
+                </div>
+                <div class="card-footer bg-success text-white">Acessar Formulário</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-center action-card shadow-sm border-danger" 
+                 onclick="window.location.href='/livros/ManutLivro'">
+                <div class="card-body py-3">
+                    <i class="fas fa-pen card-icon text-danger"></i>
+                    <h5 class="card-title mb-1">Manutenção de Livros</h5>
+                    <p class="card-text text-muted small">Formulário: Controle de estoque e catálogo.</p>
+                </div>
+                <div class="card-footer bg-danger text-white">Acessar Formulário</div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-center action-card shadow-sm border-danger" 
+                 onclick="window.location.href='/emprestimos/ManutEmprestimo'">
+                <div class="card-body py-3">
+                    <i class="fas fa-exchange-alt card-icon text-danger"></i>
+                    <h5 class="card-title mb-1">Manutenção de Empréstimos</h5>
+                    <p class="card-text text-muted small">Formulário: Registrar e gerenciar transações.</p>
+                </div>
+                <div class="card-footer bg-danger text-white">Acessar Formulário</div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        if (typeof windowOnLoad === 'function') {
+            windowOnLoad();
+        }
+    };
+</script>
+
+{% endblock %}
+```eof
+
+---
+
+## ⏭️ Próximo Passo
+
+Agora que você tem o menu principal e o roteamento configurado no `routes/rtIndex.js`, o sistema irá travar no `verificaAutenticacao` até você criar a tela de login.
+
+Vamos criar a tela de **Login** (`apps/login/login.html`) e o controlador básico (`apps/login/controller/ctlLogin.js`) que renderiza essa tela?
