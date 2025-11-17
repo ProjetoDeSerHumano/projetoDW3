@@ -1,0 +1,98 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+
+<style>
+    .form-container {
+        max-width: 650px; 
+        margin: 0 auto;
+    }
+    .card-manut {
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .card-header-custom {
+        background-color: #28a745; 
+        color: white;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+    }
+    .btn-action {
+        min-width: 120px;
+    }
+</style>
+
+<div class="form-container">
+<br>
+    <ol class="breadcrumb mb-4">
+        
+        <li class="breadcrumb-item"><a href="/">Menu Principal</a></li>
+        <li class="breadcrumb-item active">Manutenção de Autores</li>
+    </ol>
+    
+    <div class="card card-manut">
+        <div class="card-header card-header-custom">
+            <h2 class="h5 mb-0"><i class="fas fa-user-plus me-2"></i> Formulário de Manutenção | Autor</h2>
+        </div>
+        <div class="card-body">
+            
+            <form id="formManutAutor" method="POST" action="/autores/salvar">
+                
+                                <input type="hidden" id="idAutor" name="idAutor" value="">
+
+                                <div class="mb-3">
+                    <label for="nomeAutor" class="form-label">Nome Completo do Autor</label>
+                    <input type="text" class="form-control" id="nomeAutor" name="nomeAutor" required
+                           placeholder="Digite o nome completo do autor">
+                </div>
+
+                                <div class="mb-4">
+                    <label for="nacionalidade" class="form-label">Nacionalidade</label>
+                    <input type="text" class="form-control" id="nacionalidade" name="nacionalidade" 
+                           placeholder="Ex: Brasileiro, Americano, etc.">
+                </div>
+
+                <div class="d-flex justify-content-between pt-3 border-top">
+                    <button type="submit" class="btn btn-success btn-action me-2">
+                        <i class="fas fa-save me-1"></i> Salvar
+                    </button>
+                    
+                    <button type="button" class="btn btn-danger btn-action me-auto d-none" id="btnExcluir" onclick="excluirAutor()">
+                        <i class="fas fa-trash-alt me-1"></i> Excluir
+                    </button>
+                    
+                    <a href="/autores/ConsultaAutor" class="btn btn-secondary btn-action">
+                        <i class="fas fa-arrow-left me-1"></i> Voltar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function carregarDadosAutor(id) {
+        console.log('Carregando dados do Autor ID:', id);
+    }
+
+    function excluirAutor() {
+        if (confirm('Tem certeza que deseja excluir este Autor?')) {
+            const id = document.getElementById('idAutor').value;
+            console.log('Excluindo Autor ID:', id);
+        }
+    }
+
+    window.onload = function () {
+        const params = new URLSearchParams(window.location.search);
+        const autorId = params.get('id'); 
+
+        if (autorId) {
+            carregarDadosAutor(autorId);
+            document.getElementById('btnExcluir').classList.remove('d-none');
+        } else {
+            document.getElementById('btnExcluir').classList.add('d-none');
+        }
+    };
+</script>
+
+{% endblock %}

@@ -3,7 +3,6 @@
 {% block content %}
 
 <style>
-    /* Estilos customizados para centralizar o conteúdo e estilizar os cards */
     .dashboard-container {
         padding-top: 30px;
         max-width: 1200px;
@@ -40,9 +39,7 @@
     <div class="row mb-5">
         <div class="col-12 text-center">
             <h1 class="display-6 mb-3">Gerenciamento de Biblioteca DW3</h1>
-            <p class="lead text-muted">
-                Selecione a operação desejada para as tabelas **Autor**, **Leitor**, **Livro** e **Empréstimo**.
-            </p>
+            
         </div>
     </div>
 
@@ -106,11 +103,11 @@
         
         <div class="col-md-6 col-lg-3">
             <div class="card text-center action-card shadow-sm border-success" 
-                 onclick="window.location.href='/autores/ManutAutor'">
+                 onclick="window.location.href='/autores/ManutAutores'">
                 <div class="card-body py-3">
                     <i class="fas fa-pen card-icon text-success"></i>
-                    <h5 class="card-title mb-1">Manutenção de Autores</h5>
-                    <p class="card-text text-muted small">Formulário: Cadastrar, editar, excluir.</p>
+                    <h5 class="card-title mb-1">Cadastrar Autores</h5>
+                    <p class="card-text text-muted small">Formulário de autores: Cadastrar, editar, excluir.</p>
                 </div>
                 <div class="card-footer bg-success text-white">Acessar Formulário</div>
             </div>
@@ -118,11 +115,11 @@
 
         <div class="col-md-6 col-lg-3">
             <div class="card text-center action-card shadow-sm border-success" 
-                 onclick="window.location.href='/leitores/ManutLeitor'">
+                 onclick="window.location.href='/leitores/ManutLeitores'">
                 <div class="card-body py-3">
                     <i class="fas fa-pen card-icon text-success"></i>
-                    <h5 class="card-title mb-1">Manutenção de Leitores</h5>
-                    <p class="card-text text-muted small">Formulário: Cadastrar novos leitores.</p>
+                    <h5 class="card-title mb-1">Cadastrar Leitores</h5>
+                    <p class="card-text text-muted small">Formulário de leitores: Cadastrar , editar, excluir.</p>
                 </div>
                 <div class="card-footer bg-success text-white">Acessar Formulário</div>
             </div>
@@ -130,11 +127,11 @@
 
         <div class="col-md-6 col-lg-3">
             <div class="card text-center action-card shadow-sm border-danger" 
-                 onclick="window.location.href='/livros/ManutLivro'">
+                 onclick="window.location.href='/livros/ManutLivros'">
                 <div class="card-body py-3">
                     <i class="fas fa-pen card-icon text-danger"></i>
-                    <h5 class="card-title mb-1">Manutenção de Livros</h5>
-                    <p class="card-text text-muted small">Formulário: Controle de estoque e catálogo.</p>
+                    <h5 class="card-title mb-1">Cadastrar Livros</h5>
+                    <p class="card-text text-muted small">Controle de estoque e catálogo de livros.</p>
                 </div>
                 <div class="card-footer bg-danger text-white">Acessar Formulário</div>
             </div>
@@ -145,8 +142,8 @@
                  onclick="window.location.href='/emprestimos/ManutEmprestimo'">
                 <div class="card-body py-3">
                     <i class="fas fa-exchange-alt card-icon text-danger"></i>
-                    <h5 class="card-title mb-1">Manutenção de Empréstimos</h5>
-                    <p class="card-text text-muted small">Formulário: Registrar e gerenciar transações.</p>
+                    <h5 class="card-title mb-1">Cadastrar Empréstimos</h5>
+                    <p class="card-text text-muted small">Formulário de empr'sstimos: Registrar, editar e excluir.</p>
                 </div>
                 <div class="card-footer bg-danger text-white">Acessar Formulário</div>
             </div>
@@ -164,12 +161,3 @@
 </script>
 
 {% endblock %}
-```eof
-
----
-
-## ⏭️ Próximo Passo
-
-Agora que você tem o menu principal e o roteamento configurado no `routes/rtIndex.js`, o sistema irá travar no `verificaAutenticacao` até você criar a tela de login.
-
-Vamos criar a tela de **Login** (`apps/login/login.html`) e o controlador básico (`apps/login/controller/ctlLogin.js`) que renderiza essa tela?
