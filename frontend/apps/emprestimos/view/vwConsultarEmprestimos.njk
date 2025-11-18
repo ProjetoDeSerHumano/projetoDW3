@@ -1,0 +1,128 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+<br>
+<div class="container-fluid px-4">
+    <ol class="breadcrumb mb-4 mt-4">
+        <li class="breadcrumb-item"><a href="/">Menu Principal</a></li>
+        <li class="breadcrumb-item active">Consulta de Empréstimos</li>
+    </ol>
+    
+    <div class="row mb-3 align-items-center">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0 text-info">
+                <i class="fas fa-search me-2"></i> {{ title }}
+            </h1>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="/emprestimos/ManutEmprestimo" class="btn btn-info">
+                <i class="fas fa-plus me-1"></i> Registrar Novo Empréstimo
+            </a>
+        </div>
+    </div>
+    
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar por Título do Livro, Leitor ou Status..." onkeyup="filterTable()">
+                </div>
+                <div class="col-12 col-md-4 d-grid">
+                    <button class="btn btn-primary" disabled><i class="fas fa-filter me-1"></i> Aplicar Filtro</button>
+                </div>
+            </div>
+            
+            {% if erro %}
+            <div class="alert alert-danger mt-3" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i> Erro ao carregar dados: {{ erro }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card shadow-lg mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered w-100" id="emprestimosTable">
+                    <thead class="bg-light text-dark">
+                        <tr>
+                            <th style="width: 5%;">ID</th>
+                            <th style="width: 25%;">Livro</th>
+                            <th style="width: 20%;">Leitor</th>
+                            <th style="width: 15%;">Empréstimo</th>
+                            <th style="width: 15%;">Devolução Prev.</th>
+                            <th style="width: 15%;">Status</th>
+                            <th class="text-center" style="width: 5%;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if data %}
+                            {% for emprestimo in data %}
+                            <tr>
+                                <td class="fw-bold">{{ emprestimo.id }}</td>
+                                <td class="fw-bold">{{ emprestimo.tituloLivro }}</td> 
+                                <td>{{ emprestimo.nomeLeitor }}</td>
+                                <td>{{ emprestimo.dataEmprestimo }}</td>
+                                <td>{{ emprestimo.dataDevolucaoPrevista }}</td>
+                                <td><span class="badge 
+                                    {% if emprestimo.status == 'DEVOLVIDO' %} bg-success
+                                    {% elif emprestimo.status == 'ATRASADO' %} bg-danger
+                                    {% else %} bg-warning text-dark
+                                    {% endif %}">{{ emprestimo.status }}</span></td>
+                                <td class="text-center">
+                                    <a href="/emprestimos/ManutEmprestimo?id={{ emprestimo.id }}" title="Editar/Visualizar" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">Nenhum empréstimo registrado ou erro ao carregar os dados.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 🛑 JavaScript para o Mecanismo de Busca (Filtro da Tabela) 🛑
+    function filterTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('emprestimosTable');
+        const tr = table.getElementsByTagName('tr');
+
+        // Itera sobre todas as linhas da tabela (começando após o cabeçalho)
+        for (let i = 1; i < tr.length; i++) {
+            tr[i].style.display = "none"; // Esconde a linha por padrão
+            
+            // Células de Livro (1), Leitor (2), Status (5)
+            const tdLivro = tr[i].getElementsByTagName("td")[1];
+            const tdLeitor = tr[i].getElementsByTagName("td")[2];
+            const tdStatus = tr[i].getElementsByTagName("td")[5];
+            
+            if (tdLivro || tdLeitor || tdStatus) {
+                
+                const livroMatch = tdLivro && tdLivro.textContent.toUpperCase().indexOf(filter) > -1;
+                const leitorMatch = tdLeitor && tdLeitor.textContent.toUpperCase().indexOf(filter) > -1;
+                const statusMatch = tdStatus && tdStatus.textContent.toUpperCase().indexOf(filter) > -1;
+
+                if (livroMatch || leitorMatch || statusMatch) {
+                    tr[i].style.display = ""; // Mostra a linha
+                }
+            }
+        }
+    }
+    
+    window.onload = function () {
+        if (typeof windowOnLoad === 'function') {
+            windowOnLoad();
+        }
+    };
+</script>
+
+{% endblock %}

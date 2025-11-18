@@ -1,0 +1,130 @@
+{% extends "templates/base.html" %}
+{% block content %}
+    <style>
+        .form-container {
+            /* Mantendo o tamanho ajustado para o formulário */
+            max-width: 650px;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        .card-manut {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .card-header-custom {
+            /* Cor Info/Azul para Empréstimos */
+            background-color: #17a2b8;
+            color: white;
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+        }
+        .btn-action {
+            min-width: 120px;
+        }
+    </style>
+  
+    <div class="form-container">
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item">
+                <a href="/">Menu Principal</a>
+            </li>
+            <li class="breadcrumb-item active">Manutenção de Empréstimos</li>
+        </ol>
+        <div class="card card-manut">
+            <div class="card-header card-header-custom">
+                <h2 class="h5 mb-0">
+                    <i class="fas fa-handshake me-2"></i>
+                    Formulário de Manutenção | Empréstimo</h2>
+            </div>
+            <div class="card-body">
+                <form id="formManutEmprestimo" method="POST" action="/emprestimos/salvar">
+                    <input type="hidden" id="idEmprestimo" name="idEmprestimo" value="">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="leitorID" class="form-label">Leitor</label>
+                                <select class="form-select" id="leitorID" name="leitorID" required>
+                                    <option value="">Selecione o Leitor</option>
+                                    {% for leitor in leitores %}
+                                        <option value="{{ leitor.id }}">{{ leitor.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="livroID" class="form-label">Livro</label>
+                                <select class="form-select" id="livroID" name="livroID" required>
+                                    <option value="">Selecione o Livro</option>
+                                    {% for livro in livros %}
+                                        <option value="{{ livro.id }}">{{ livro.titulo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="dataEmprestimo" class="form-label">Data do Empréstimo</label>
+                                <input type="date" class="form-control" id="dataEmprestimo" name="dataEmprestimo" required></div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="dataDevolucaoPrevista" class="form-label">Previsão de Devolução</label>
+                                    <input type="date" class="form-control" id="dataDevolucaoPrevista" name="dataDevolucaoPrevista"></div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="status" class="form-label">Status do Empréstimo</label>
+                                    <select class="form-select" id="status" name="status" required>
+                                        <option value="EMPRESTADO">Emprestado</option>
+                                        <option value="DEVOLVIDO">Devolvido</option>
+                                        <option value="ATRASADO">Atrasado</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-between pt-3 border-top">
+                                    <button type="submit" class="btn btn-info btn-action me-2">
+                                        <i class="fas fa-save me-1"></i>
+                                        Salvar
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-danger btn-action me-auto d-none"
+                                        id="btnExcluir"
+                                        onclick="excluirEmprestimo()">
+                                        <i class="fas fa-trash-alt me-1"></i>
+                                        Excluir
+                                    </button>
+                                    <a href="/emprestimos/ConsultaEmprestimo" class="btn btn-secondary btn-action">
+                                        <i class="fas fa-arrow-left me-1"></i>
+                                        Voltar
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    // Funções JS (carregarDadosEmprestimo, excluirEmprestimo, window.onload)
+                    function carregarDadosEmprestimo(id) { // Implementação real buscaria os dados do Empréstimo e preencheria o formulário
+                        console.log('Carregando dados do Empréstimo ID:', id);
+                    }
+                    function excluirEmprestimo() {
+                        if (confirm('Tem certeza que deseja excluir este Empréstimo?')) {
+                            const id = document.getElementById('idEmprestimo').value;
+                            console.log('Excluindo Empréstimo ID:', id);
+                            // Redirecionar após exclusão
+                        }
+                    }
+                    window.onload = function () {
+                        const params = new URLSearchParams(window.location.search);
+                        // Usa 'id' como nome de parâmetro, mas você pode mudar para 'emprestimoId' se preferir.
+                        const emprestimoId = params.get('id');
+                        if (emprestimoId) {
+                            carregarDadosEmprestimo(emprestimoId);
+                            document
+                                .getElementById('btnExcluir')
+                                .classList
+                                .remove('d-none');
+                        } else {
+                            document
+                                .getElementById('btnExcluir')
+                                .classList
+                                .add('d-none');
+                        }
+                    };
+                </script>
+            {% endblock %}
