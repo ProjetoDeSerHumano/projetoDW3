@@ -12,7 +12,7 @@ routerApp.use((req, res, next) => {
 });
 
 routerApp.get("/", (req, res) => {
-  res.send("Olá mundo!");
+  res.send("Teste para o Sistema de Biblioteca.");
 });
 /*
 // Rotas de Transações (Serão acessadas via /transacoes/UpdateTransacoes)
