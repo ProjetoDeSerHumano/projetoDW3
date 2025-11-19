@@ -1,5 +1,7 @@
 -- Criando as tabelas do DB
 
+
+
 --Tabela 1: Autor
 CREATE TABLE  IF NOT EXISTS Autor (
     ID SERIAL PRIMARY KEY,
