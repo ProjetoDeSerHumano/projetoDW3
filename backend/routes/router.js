@@ -3,6 +3,7 @@ const routerApp = express.Router();
 
 const appLogin = require("../apps/login/controller/ctlLogin.js");
 const appAutor = require("../apps/login/controller/ctlAutor.js");
+const appEmprestimos = require("../apps/login/controller/ctlEmprestimo.js");
 
 routerApp.use((req, res, next) => {
   next();
@@ -18,6 +19,13 @@ routerApp.post("/getAutorByID", appAutor.getAutorByID);
 routerApp.post("/insertAutor", appAutor.insertAutor);
 routerApp.post("/updateAutor", appAutor.updateAutor);
 routerApp.post("/deleteAutor", appAutor.deleteAutor);
+
+//Rotas EMPRESTIMO
+routerApp.get("/getAllEmprestimos", appEmprestimos.getAllEmprestimos);
+routerApp.post("/getEmprestimoByID", appEmprestimos.getEmprestimosByID);
+routerApp.post("/insertEmprestimo", appEmprestimos.insertEmprestimo);
+routerApp.post("/updateEmprestimo", appEmprestimos.updateEmprestimo);
+routerApp.post("/deleteEmprestimo", appEmprestimos.deleteEmprestimo);
 
 // Rota Login
 routerApp.post("/Login", appLogin.Login);
