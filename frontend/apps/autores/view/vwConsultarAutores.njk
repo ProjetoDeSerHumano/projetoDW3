@@ -1,116 +1,114 @@
 {% extends "templates/base.html" %}
-
 {% block content %}
     <br>
-
-<div class="container-fluid px-4">
-    <ol class="breadcrumb mb-4 mt-4">
-        <li class="breadcrumb-item"><a href="/">Menu Principal</a></li>
-        <li class="breadcrumb-item active">Consulta de Autores</li>
-    </ol>
-    
-    <div class="row mb-3 align-items-center">
-        <div class="col-md-8">
-            <h1 class="h3 mb-0 text-primary">
-                <i class="fas fa-search me-2"></i> {{ title }}
-            </h1>
-        </div>
-        <div class="col-md-4 text-end">
-            <a href="/autores/ManutAutor" class="btn btn-success">
-                <i class="fas fa-plus me-1"></i> Cadastrar Novo Autor
-            </a>
-        </div>
-    </div>
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12 col-md-8">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar por Nome ou Nacionalidade..." onkeyup="filterTable()">
-                </div>
-                <div class="col-12 col-md-4 d-grid">
-                    <button class="btn btn-primary" disabled><i class="fas fa-filter me-1"></i> Aplicar Filtro</button>
+        <div class="container-fluid px-4">
+            <ol class="breadcrumb mb-4 mt-4">
+                <li class="breadcrumb-item">
+                    <a href="/">Menu Principal</a>
+                </li>
+                <li class="breadcrumb-item active">Consulta de Autores</li>
+            </ol>
+            <div class="row mb-3 align-items-center">
+                <div class="col-md-8">
+                    <h1 class="h3 mb-0 text-primary">
+                        <i class="fas fa-search me-2"></i>
+                        Consultar Autores
+                    </h1>
                 </div>
             </div>
-            
-            {% if erro %}
-            <div class="alert alert-danger mt-3" role="alert">
-                <i class="fas fa-exclamation-triangle me-2"></i> Erro ao carregar dados: {{ erro }}
-            </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="card shadow-lg mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered w-100" id="autoresTable">
-                    <thead class="bg-light text-dark">
-                        <tr>
-                            <th style="width: 10%;">ID</th>
-                            <th style="width: 45%;">Nome</th>
-                            <th style="width: 30%;">Nacionalidade</th>
-                            <th class="text-center" style="width: 15%;">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if data %}
-                            {% for autor in data %}
-                            <tr>
-                                <td class="fw-bold">{{ autor.id }}</td>
-                                <td class="fw-bold">{{ autor.nome }}</td>
-                                <td>{{ autor.nacionalidade }}</td>
-                                <td class="text-center">
-                                    <a href="/autores/ManutAutor?id={{ autor.id }}" title="Editar/Visualizar" class="btn btn-sm btn-warning">
-                                        <i class="fas fa-edit"></i> Editar
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                        <tr>
-                            <td colspan="4" class="text-center text-muted">Nenhum autor cadastrado ou erro ao carregar os dados.</td>
-                        </tr>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-8">
+                            <input
+                                type="text"
+                                id="searchInput"
+                                class="form-control"
+                                placeholder="Pesquisar por Nome ou Nacionalidade..."
+                                onkeyup="filterTable()"></div>
+                            <div class="col-md-4 text-end">
+                                <a href="/autores/ManutAutores" class="btn btn-success">
+                                    <i class="fas fa-plus me-1"></i>
+                                    Cadastrar Novo Autor
+                                </a>
+                            </div>
+                        </div>
+                        {% if erro %}
+                            <div class="alert alert-danger mt-3" role="alert">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Erro ao carregar dados: {{ erro }}
+                            </div>
                         {% endif %}
-                    </tbody>
-                </table>
+                    </div>
+                </div>
+                <div class="card shadow-lg mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered w-100" id="autoresTable">
+                                <thead class="bg-light text-dark">
+                                    <tr>
+                                        <th style="width: 10%;">ID</th>
+                                        <th style="width: 45%;">Nome</th>
+                                        <th style="width: 30%;">Nacionalidade</th>
+                                        <th class="text-center" style="width: 15%;">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if data %}
+                                        {% for autor in data %}
+                                            <tr>
+                                                <td class="fw-bold">{{ autor.id }}</td>
+                                                <td class="fw-bold">{{ autor.nome }}</td>
+                                                <td>{{ autor.nacionalidade }}</td>
+                                                <td class="text-center">
+                                                    <a href="/autores/ManutAutores?id={{ autor.id }}" title="Editar/Visualizar" class="btn btn-sm btn-warning">
+                                                        <i class="fas fa-edit"></i>
+                                                        Editar
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted">Nenhum autor cadastrado ou erro ao carregar os dados.</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // 🛑 JavaScript para o Mecanismo de Busca (Filtro da Tabela) 🛑
-    function filterTable() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toUpperCase();
-        const table = document.getElementById('autoresTable');
-        const tr = table.getElementsByTagName('tr');
-
-        // Itera sobre todas as linhas da tabela (começando após o cabeçalho)
-        for (let i = 1; i < tr.length; i++) {
-            tr[i].style.display = "none"; // Esconde a linha por padrão
-            
-            // Pega as células de Nome (índice 1) e Nacionalidade (índice 2)
-            const tdNome = tr[i].getElementsByTagName("td")[1];
-            const tdNacionalidade = tr[i].getElementsByTagName("td")[2];
-            
-            if (tdNome || tdNacionalidade) {
-                // Se o texto da célula (Nome ou Nacionalidade) incluir o texto do filtro, mostra a linha
-                const nomeMatch = tdNome && tdNome.textContent.toUpperCase().indexOf(filter) > -1;
-                const nacionalidadeMatch = tdNacionalidade && tdNacionalidade.textContent.toUpperCase().indexOf(filter) > -1;
-
-                if (nomeMatch || nacionalidadeMatch) {
-                    tr[i].style.display = ""; // Mostra a linha
+            <script>
+                // mecanismo de busca
+                function filterTable() {
+                    const input = document.getElementById('searchInput');
+                    const filter = input.value.toUpperCase();
+                    const table = document.getElementById('autoresTable');
+                    const tr = table.getElementsByTagName('tr');
+                    for (let i = 1; i < tr.length; i++) {
+                        tr[i].style.display = "none";
+                        const tdNome = tr[i].getElementsByTagName("td")[1];
+                        const tdNacionalidade = tr[i].getElementsByTagName("td")[2];
+                        if (tdNome || tdNacionalidade) {
+                            const nomeMatch = tdNome && tdNome
+                                .textContent
+                                .toUpperCase()
+                                .indexOf(filter) > -1;
+                            const nacionalidadeMatch = tdNacionalidade && tdNacionalidade
+                                .textContent
+                                .toUpperCase()
+                                .indexOf(filter) > -1;
+                            if (nomeMatch || nacionalidadeMatch) {
+                                tr[i].style.display = "";
+                            }
+                        }
+                    }
                 }
-            }
-        }
-    }
-    
-    window.onload = function () {
-        if (typeof windowOnLoad === 'function') {
-            windowOnLoad();
-        }
-    };
-</script>
-
-{% endblock %}
+                window.onload = function () {
+                    if (typeof windowOnLoad === 'function') {
+                        windowOnLoad();
+                    }
+                };
+            </script>
+        {% endblock %}

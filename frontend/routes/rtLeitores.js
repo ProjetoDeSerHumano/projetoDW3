@@ -17,10 +17,12 @@ function authenticationMiddleware(req, res, next) {
 
 router.get('/', authenticationMiddleware, (req, res) => {
     
-    return res.redirect('/leitores/ManutLeitores');
+    return res.redirect('/leitores/ConsultarLeitores');
 
 });
 
+
+router.get('/ConsultarLeitores', authenticationMiddleware, leitoresApp.consultarLeitores);
 
 router.get('/ManutLeitores', authenticationMiddleware, leitoresApp.manutLeitores); 
 /*router.get('/InsertContas', authenticationMiddleware, contasApp.insertContas); 

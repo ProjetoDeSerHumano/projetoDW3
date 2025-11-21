@@ -11,11 +11,11 @@
     <div class="row mb-3 align-items-center">
         <div class="col-md-8">
             <h1 class="h3 mb-0 text-info">
-                <i class="fas fa-search me-2"></i> {{ title }}
+                <i class="fas fa-search me-2"></i> Consultar Empréstimos
             </h1>
         </div>
         <div class="col-md-4 text-end">
-            <a href="/emprestimos/ManutEmprestimo" class="btn btn-info">
+            <a href="/emprestimos/ManutEmprestimos" class="btn btn-info">
                 <i class="fas fa-plus me-1"></i> Registrar Novo Empréstimo
             </a>
         </div>
@@ -70,7 +70,7 @@
                                     {% else %} bg-warning text-dark
                                     {% endif %}">{{ emprestimo.status }}</span></td>
                                 <td class="text-center">
-                                    <a href="/emprestimos/ManutEmprestimo?id={{ emprestimo.id }}" title="Editar/Visualizar" class="btn btn-sm btn-warning">
+                                    <a href="/emprestimos/ManutEmprestimos?id={{ emprestimo.id }}" title="Editar/Visualizar" class="btn btn-sm btn-warning">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 </td>

@@ -14,13 +14,9 @@ const port = process.env.PORT
 //rotas
 var rtIndex = require('./routes/rtIndex');
 var rtLivros = require('./routes/rtLivros');
-var rtConsultarLivros = require('./routes/rtConsultarLivros');
 var rtAutores = require('./routes/rtAutores'); 
-var rtConsultarAutores = require('./routes/rtConsultarAutores');
 var rtLeitores = require('./routes/rtLeitores'); 
-var rtConsultarLeitores = require('./routes/rtConsultarLeitores');
 var rtEmprestimos = require('./routes/rtEmprestimos'); 
-var rtConsultarEmprestimos = require('./routes/rtConsultarEmprestimos');
 
 
 
@@ -57,10 +53,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// USO DA SESSÃO COM O SECRET GARANTIDO
 app.use(
     session({
-        secret: sessionSecret, // AGORA GARANTIDO QUE NÃO É NULL/UNDEFINED
+        secret: sessionSecret, 
         resave: false,
         saveUninitialized: true,
         cookie: { maxAge: null },
@@ -68,16 +63,11 @@ app.use(
 );
 
 
-//@ ROTEAMENTO ADAPTADO
 app.use('/', rtIndex);
 app.use('/autores', rtAutores);
-app.use('/autores', rtConsultarAutores);
 app.use('/leitores', rtLeitores);
-app.use('/leitores', rtConsultarLeitores);
 app.use('/livros', rtLivros);
-app.use('/livros', rtConsultarLivros);
 app.use('/emprestimos', rtEmprestimos);
-app.use('/emprestimos', rtConsultarEmprestimos);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

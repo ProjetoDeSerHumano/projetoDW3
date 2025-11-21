@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var autoresApp = require("../apps/emprestimos/controller/ctlEmprestimos");
+var emprestimosApp = require("../apps/emprestimos/controller/ctlEmprestimos");
 
 function authenticationMiddleware(req, res, next) {
     const isLogged = req.session.isLogged;
@@ -21,14 +21,8 @@ router.get('/', authenticationMiddleware, (req, res) => {
 
 });
 
+router.get('/ConsultarEmprestimos', authenticationMiddleware, emprestimosApp.consultarEmprestimos);
 
-router.get('/ManutEmprestimos', authenticationMiddleware, autoresApp.manutEmprestimos); 
-/*router.get('/InsertContas', authenticationMiddleware, contasApp.insertContas); 
-router.get('/ViewConta/:id', authenticationMiddleware, contasApp.ViewConta); 
-router.get('/UpdateConta/:id', authenticationMiddleware, contasApp.UpdateConta); 
-
-router.post('/InsertContas', authenticationMiddleware, contasApp.insertContas); 
-router.post('/UpdateContas', authenticationMiddleware, contasApp.UpdateConta); 
-router.post('/DeleteContas', authenticationMiddleware, contasApp.DeleteConta); */
+router.get('/ManutEmprestimos', authenticationMiddleware, emprestimosApp.manutEmprestimos); 
 
 module.exports = router;

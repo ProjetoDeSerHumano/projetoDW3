@@ -16,7 +16,7 @@
                 </h1>
             </div>
             <div class="col-md-4 text-end">
-                <a href="/livros/ManutLivro" class="btn btn-danger">
+                <a href="/livros/ManutLivros" class="btn btn-danger">
                     <i class="fas fa-plus me-1"></i>
                     Cadastrar Novo Livro
                 </a>
@@ -70,7 +70,7 @@
                                             <td>{{ livro.dataPublicacao }}</td>
                                             <td>R$ {{ livro.edicaoCusto | number_format(2, ',', '.') }}</td>
                                             <td class="text-center">
-                                                <a href="/livros/ManutLivro?id={{ livro.id }}" title="Editar/Visualizar" class="btn btn-sm btn-info">
+                                                <a href="/livros/ManutLivros?id={{ livro.id }}" title="Editar/Visualizar" class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             </td>

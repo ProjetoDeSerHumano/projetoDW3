@@ -1,98 +1,151 @@
 {% extends "templates/base.html" %}
-
 {% block content %}
+    <style>
+        .form-container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .card-manut {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .card-header-custom {
+            background-color: #28a745;
+            color: white;
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+        }
+        .btn-action {
+            min-width: 120px;
+        }
+    </style>
+    <br>
+        <div class="form-container">
+            <br>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item">
+                        <a href="/">Menu Principal</a>
+                    </li>
+                    <li class="breadcrumb-item active">{{ title }}</li>
+                </ol>
+                <div class="card card-manut">
+                    <div class="card-header card-header-custom">
+                        <h2 class="h5 mb-0">
+                            <i class="fas fa-user-plus me-2"></i>
+                            Formulário de Manutenção | Autor</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="formManutAutor">
+                            <input type="hidden" id="idAutor" name="idAutor" value="{{ data.id if data }}">
+                                <div class="mb-3">
+                                    <label for="nome" class="form-label">Nome Completo do Autor</label>
+                                    <input type="text" class="form-control" id="nome" name="nome" required placeholder="Digite o nome completo do autor" value="{{ data.nome if data }}"></div>
+                                    <div class="mb-4">
+                                        <label for="nacionalidade" class="form-label">Nacionalidade</label>
+                                        <input type="text" class="form-control" id="nacionalidade" name="nacionalidade" placeholder="Ex: Brasileiro, Americano, etc." value="{{ data.nacionalidade if data }}"></div>
+                                        <div class="d-flex justify-content-between pt-3 border-top">
+                                            <button type="button" class="btn btn-success btn-action me-2" onclick="salvarAutor()">
+                                                <i class="fas fa-save me-1"></i>
+                                                Salvar
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-action me-auto d-none" id="btnExcluir" onclick="excluirAutor()">
+                                                <i class="fas fa-trash-alt me-1"></i>
+                                                Excluir
+                                            </button>
+                                            <a href="/autores/ConsultarAutores" class="btn btn-secondary btn-action">
+                                                <i class="fas fa-arrow-left me-1"></i>
+                                                Voltar
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            function salvarAutor() {
+                                const autorId = document.getElementById('idAutor').value;
+                                // Se id existir leva para o update se não leva para o insert
+                                const endpoint = autorId
+                                    ? '/autores/UpdateAutor'
+                                    : '/autores/InsertAutor';
+                                const formData = { // Passa o ID apenas se estiver em modo de edição
+                                    id: autorId || undefined,
+                                    nome: document.getElementById('nome').value,
+                                    nacionalidade: document.getElementById('nacionalidade').value
+                                };
+                                fetch(endpoint, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(formData)
+                                })
+                                    .then(response => response.json())
+                                    .then(result => {
+                                        if (result.status === "ok") {
+                                            alert("Autor salvo com sucesso!");
+                                            window.location.href = "/autores/ConsultarAutores";
+                                        } else {
+                                            alert (`Erro ao salvar autor: ${
+                                                result.msg
+                                            }`);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Erro na requisição:', error);
+                                        alert("Erro de conexão ao salvar.");
+                                    });
+                            }
 
-<style>
-    .form-container {
-        max-width: 650px; 
-        margin: 0 auto;
-    }
-    .card-manut {
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    .card-header-custom {
-        background-color: #28a745; 
-        color: white;
-        border-bottom: none;
-        border-radius: 10px 10px 0 0;
-    }
-    .btn-action {
-        min-width: 120px;
-    }
-</style>
+                            async function excluirAutor() { 
+                                const autorId = document.getElementById('idAutor').value;
+                                //se n encontrar o id
+                                if (! autorId) {
+                                    alert("Erro: ID do autor não encontrado para exclusão.");
+                                    return;
+                                }
+                                if (confirm("Você tem certeza que deseja deletar esse Autor?")) {
+                                    const formData = { 
+                                        id: parseInt(autorId)
+                                    };
+                                    try {
+                                        const response = await fetch('/autores/DeleteAutor', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(formData)
+                                        });
+                                        const result = await response.json();
+                                        if (result.status === "ok") {
+                                            alert("Autor deletado com sucesso!"); 
+                                            window.location.href = "/autores/ConsultarAutores";
+                                        } else {
+                                            alert (`Erro ao deletar autor: ${
+                                                result.msg
+                                            }`);
+                                        }
+                                    } catch (error) {
+                                        console.error('Erro na requisição de exclusão:', error);
+                                        alert("Erro de conexão ao deletar o autor.");
+                                    }
+                                }
+                            }
 
-<div class="form-container">
-<br>
-    <ol class="breadcrumb mb-4">
-        
-        <li class="breadcrumb-item"><a href="/">Menu Principal</a></li>
-        <li class="breadcrumb-item active">Manutenção de Autores</li>
-    </ol>
-    
-    <div class="card card-manut">
-        <div class="card-header card-header-custom">
-            <h2 class="h5 mb-0"><i class="fas fa-user-plus me-2"></i> Formulário de Manutenção | Autor</h2>
-        </div>
-        <div class="card-body">
-            
-            <form id="formManutAutor" method="POST" action="/autores/salvar">
-                
-                                <input type="hidden" id="idAutor" name="idAutor" value="">
 
-                                <div class="mb-3">
-                    <label for="nomeAutor" class="form-label">Nome Completo do Autor</label>
-                    <input type="text" class="form-control" id="nomeAutor" name="nomeAutor" required
-                           placeholder="Digite o nome completo do autor">
-                </div>
-
-                                <div class="mb-4">
-                    <label for="nacionalidade" class="form-label">Nacionalidade</label>
-                    <input type="text" class="form-control" id="nacionalidade" name="nacionalidade" 
-                           placeholder="Ex: Brasileiro, Americano, etc.">
-                </div>
-
-                <div class="d-flex justify-content-between pt-3 border-top">
-                    <button type="submit" class="btn btn-success btn-action me-2">
-                        <i class="fas fa-save me-1"></i> Salvar
-                    </button>
-                    
-                    <button type="button" class="btn btn-danger btn-action me-auto d-none" id="btnExcluir" onclick="excluirAutor()">
-                        <i class="fas fa-trash-alt me-1"></i> Excluir
-                    </button>
-                    
-                    <a href="/autores/ConsultaAutor" class="btn btn-secondary btn-action">
-                        <i class="fas fa-arrow-left me-1"></i> Voltar
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    function carregarDadosAutor(id) {
-        console.log('Carregando dados do Autor ID:', id);
-    }
-
-    function excluirAutor() {
-        if (confirm('Tem certeza que deseja excluir este Autor?')) {
-            const id = document.getElementById('idAutor').value;
-            console.log('Excluindo Autor ID:', id);
-        }
-    }
-
-    window.onload = function () {
-        const params = new URLSearchParams(window.location.search);
-        const autorId = params.get('id'); 
-
-        if (autorId) {
-            carregarDadosAutor(autorId);
-            document.getElementById('btnExcluir').classList.remove('d-none');
-        } else {
-            document.getElementById('btnExcluir').classList.add('d-none');
-        }
-    };
-</script>
-
-{% endblock %}
+                            window.onload = function () { // Verifica se id está presente ou seja edição
+                                const autorId = document.getElementById('idAutor').value;
+                                if (autorId) {
+                                    document
+                                        .getElementById('btnExcluir')
+                                        .classList
+                                        .remove('d-none'); // Mostra o botão Excluir
+                                } else {
+                                    document
+                                        .getElementById('btnExcluir')
+                                        .classList
+                                        .add('d-none'); // Esconde o botão Excluir
+                                }
+                            };
+                        </script>
+                    {% endblock %}
