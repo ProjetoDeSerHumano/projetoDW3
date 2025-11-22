@@ -1,9 +1,21 @@
 const db = require('../../../database/databaseconfig');
 
+//query simplificada do getAllLivro : "SELECT * FROM livro WHERE Removido = false ORDER BY Titulo ASC"
+
 const getAllLivros = async () => {
     return (
         await db.query(
-            "SELECT * FROM livro WHERE Removido = false ORDER BY Titulo ASC"
+            `SELECT 
+                Livro.ID, 
+                Livro.Titulo, 
+                Livro.AutorID, 
+                Livro.DataPublicacao, 
+                Livro.EdicaoCusto,
+                Autor.Nome AS nome_autor 
+             FROM Livro 
+             INNER JOIN Autor ON Livro.AutorID = Autor.ID
+             WHERE Livro.Removido = false AND Autor.Removido = false
+             ORDER BY Livro.Titulo ASC`
         )
     ).rows;
 };
