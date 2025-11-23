@@ -1,28 +1,27 @@
-{% extends "templates/base.html" %}
-{% block content %}
+
+    {
+    % block content %
+}
     <style>
         .form-container {
-            /* Mantendo o tamanho ajustado para o formulário */
-            max-width: 650px;
-            margin: 0 auto;
-            padding-top: 50px;
-        }
+        max - width : 650 px;
+        margin : 0 auto;
+        padding - top : 50 px;
+    }
         .card-manut {
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
+        border - radius : 10 px;
+        box - shadow : 0 4 px 12 px rgba(0, 0, 0, 0.05);
+    }
         .card-header-custom {
-            /* Cor Info/Azul para Empréstimos */
-            background-color: #17a2b8;
-            color: white;
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
-        }
+        /* Cor Info/Azul para Empréstimos */
+        background - color : #17a2b8;
+        color : white;
+        border - bottom : none;
+        border - radius : 10 px 10 px 0 0;
+    }
         .btn-action {
-            min-width: 120px;
-        }
-    </style>
-  
+        min - width : 120 px;
+    } </style>
     <div class="form-container">
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item">
@@ -37,46 +36,58 @@
                     Formulário de Manutenção | Empréstimo</h2>
             </div>
             <div class="card-body">
-                <form id="formManutEmprestimo" method="POST" action="/emprestimos/salvar">
-                    <input type="hidden" id="idEmprestimo" name="idEmprestimo" value="">
+                <form id="formManutEmprestimo">
+                    <input type="hidden" id="idEmprestimo" name="idEmprestimo" value="{{ data.id if data }}">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="leitorID" class="form-label">Leitor</label>
-                                <select class="form-select" id="leitorID" name="leitorID" required>
+                                <select class="form-select" id="leitorID" name="leitorid" required>
                                     <option value="">Selecione o Leitor</option>
-                                    {% for leitor in leitores %}
-                                        <option value="{{ leitor.id }}">{{ leitor.nome }}</option>
-                                    {% endfor %}
-                                </select>
+                                    {
+                                    % for leitor in leitores %
+                                }
+                                    <option value="{{ leitor.id }}" {% if data and data.leitorid == leitor.id %} selected {% endif %}>
+                                        {
+                                        {leitor.nome}
+                                    }</option>
+                                    {
+                                    % endfor %
+                                } </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="livroID" class="form-label">Livro</label>
-                                <select class="form-select" id="livroID" name="livroID" required>
+                                <select class="form-select" id="livroID" name="livroid" required>
                                     <option value="">Selecione o Livro</option>
-                                    {% for livro in livros %}
-                                        <option value="{{ livro.id }}">{{ livro.titulo }}</option>
-                                    {% endfor %}
-                                </select>
+                                    {
+                                    % for livro in livros %
+                                }
+                                    <option value="{{ livro.id }}" {% if data and data.livroid == livro.id %} selected {% endif %}>
+                                        {
+                                        {livro.titulo}
+                                    }</option>
+                                    {
+                                    % endfor %
+                                } </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="dataEmprestimo" class="form-label">Data do Empréstimo</label>
-                                <input type="date" class="form-control" id="dataEmprestimo" name="dataEmprestimo" required></div>
+                                <input type="date" class="form-control" id="dataEmprestimo" name="dataemprestimo" required value="{{ data.dataemprestimo if data }}"></div>
                                 <div class="col-md-6 mb-3">
                                     <label for="dataDevolucaoPrevista" class="form-label">Previsão de Devolução</label>
-                                    <input type="date" class="form-control" id="dataDevolucaoPrevista" name="dataDevolucaoPrevista"></div>
+                                    <input type="date" class="form-control" id="dataDevolucaoPrevista" name="datadevolucaoprevista" value="{{ data.datadevolucaoprevista if data }}"></div>
                                 </div>
                                 <div class="mb-4">
                                     <label for="status" class="form-label">Status do Empréstimo</label>
                                     <select class="form-select" id="status" name="status" required>
-                                        <option value="EMPRESTADO">Emprestado</option>
-                                        <option value="DEVOLVIDO">Devolvido</option>
-                                        <option value="ATRASADO">Atrasado</option>
+                                        <option value="EMPRESTADO" {% if data and data.status == 'EMPRESTADO' %} selected {% endif %}>Emprestado</option>
+                                        <option value="DEVOLVIDO" {% if data and data.status == 'DEVOLVIDO' %} selected {% endif %}>Devolvido</option>
+                                        <option value="ATRASADO" {% if data and data.status == 'ATRASADO' %} selected {% endif %}>Atrasado</option>
                                     </select>
                                 </div>
                                 <div class="d-flex justify-content-between pt-3 border-top">
-                                    <button type="submit" class="btn btn-info btn-action me-2">
+                                    <button type="button" class="btn btn-info btn-action me-2" onclick="salvarEmprestimo()">
                                         <i class="fas fa-save me-1"></i>
                                         Salvar
                                     </button>
@@ -98,23 +109,84 @@
                     </div>
                 </div>
                 <script>
-                    // Funções JS (carregarDadosEmprestimo, excluirEmprestimo, window.onload)
-                    function carregarDadosEmprestimo(id) { // Implementação real buscaria os dados do Empréstimo e preencheria o formulário
-                        console.log('Carregando dados do Empréstimo ID:', id);
+                    function salvarEmprestimo() {
+                        const idEmprestimo = document.getElementById('idEmprestimo').value;
+                        const endpoint = idEmprestimo
+                            ? '/emprestimos/UpdateEmprestimo'
+                            : '/emprestimos/InsertEmprestimo';
+                        // Coletando dados com chaves em minúsculas para consistência com o DB
+                        const formData = {
+                            id: idEmprestimo || undefined,
+                            leitorid: document.getElementById('leitorID').value,
+                            livroid: document.getElementById('livroID').value,
+                            dataemprestimo: document.getElementById('dataEmprestimo').value,
+                            datadevolucaoprevista: document.getElementById('dataDevolucaoPrevista').value,
+                            status: document.getElementById('status').value
+                        };
+                        if (! formData.leitorid || ! formData.livroid || ! formData.dataemprestimo || ! formData.status) {
+                            alert("Por favor, preencha todos os campos obrigatórios (Leitor, Livro, Data de Empréstimo e Status).");
+                            return;
+                        }
+                        fetch(endpoint, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        })
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.status === "ok") {
+                                    alert("Empréstimo salvo com sucesso!");
+                                    window.location.href = "/emprestimos/ConsultarEmprestimos";
+                                } else {
+                                    alert(`Erro ao salvar empréstimo: ${
+                                        result.msg
+                                    }`);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Erro na requisição:', error);
+                                alert("Erro de conexão ao salvar.");
+                            });
                     }
-                    function excluirEmprestimo() {
+                    async function excluirEmprestimo() {
+                        const idEmprestimo = document.getElementById('idEmprestimo').value;
+                        if (! idEmprestimo) {
+                            alert("Erro: ID do empréstimo não encontrado para exclusão.");
+                            return;
+                        }
                         if (confirm('Tem certeza que deseja excluir este Empréstimo?')) {
-                            const id = document.getElementById('idEmprestimo').value;
-                            console.log('Excluindo Empréstimo ID:', id);
-                            // Redirecionar após exclusão
+                            const formData = {
+                                id: parseInt(idEmprestimo)
+                            };
+                            try {
+                                const response = await fetch('/emprestimos/DeleteEmprestimo', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(formData)
+                                });
+                                const result = await response.json();
+                                if (result.status === "ok") {
+                                    alert("Empréstimo excluído com sucesso!");
+                                    window.location.href = "/emprestimos/ConsultarEmprestimos";
+                                } else {
+                                    alert(`Erro ao excluir empréstimo: ${
+                                        result.msg
+                                    }`);
+                                }
+                            } catch (error) {
+                                console.error('Erro na requisição de exclusão:', error);
+                                alert("Erro de conexão ao deletar o empréstimo.");
+                            }
                         }
                     }
                     window.onload = function () {
                         const params = new URLSearchParams(window.location.search);
-                        // Usa 'id' como nome de parâmetro, mas você pode mudar para 'emprestimoId' se preferir.
                         const emprestimoId = params.get('id');
-                        if (emprestimoId) {
-                            carregarDadosEmprestimo(emprestimoId);
+                        if (emprestimoId) { 
                             document
                                 .getElementById('btnExcluir')
                                 .classList
@@ -127,4 +199,6 @@
                         }
                     };
                 </script>
-            {% endblock %}
+                {
+                % endblock %
+            }

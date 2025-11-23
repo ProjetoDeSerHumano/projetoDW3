@@ -3,6 +3,8 @@ const routerApp = express.Router();
 
 const appLogin = require("../apps/login/controller/ctlLogin.js");
 const appAutor = require("../apps/login/controller/ctlAutor.js");
+const appLivro = require("../apps/login/controller/ctlLivro.js");
+const appLeitor = require("../apps/login/controller/ctlLeitor.js");
 const appEmprestimos = require("../apps/login/controller/ctlEmprestimo.js");
 
 routerApp.use((req, res, next) => {
@@ -19,6 +21,20 @@ routerApp.post("/getAutorByID", appAutor.getAutorByID);
 routerApp.post("/insertAutor", appAutor.insertAutor);
 routerApp.post("/updateAutor", appAutor.updateAutor);
 routerApp.post("/deleteAutor", appAutor.deleteAutor);
+
+//Rotas LIVRO
+routerApp.get("/getAllLivros", appLivro.getAllLivros);
+routerApp.post("/getLivroByID", appLivro.getLivroByID);
+routerApp.post("/insertLivro", appLivro.insertLivro);
+routerApp.post("/updateLivro", appLivro.updateLivro);
+routerApp.post("/deleteLivro", appLivro.deleteLivro);
+
+//Rotas LEITOR
+routerApp.get("/getAllLeitores", appLeitor.getAllLeitores);
+routerApp.post("/getLeitorByID", appLeitor.getLeitorByID);
+routerApp.post("/insertLeitor", appLeitor.insertLeitor);
+routerApp.post("/updateLeitor", appLeitor.updateLeitor);
+routerApp.post("/deleteLeitor", appLeitor.deleteLeitor);
 
 //Rotas EMPRESTIMO
 routerApp.get("/getAllEmprestimos", appEmprestimos.getAllEmprestimos);

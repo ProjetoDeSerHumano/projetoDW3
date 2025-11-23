@@ -23,14 +23,12 @@ router.get('/', authenticationMiddleware, (req, res) => {
 
 
 router.get('/ConsultarLeitores', authenticationMiddleware, leitoresApp.consultarLeitores);
+router.get('/ManutLeitores', authenticationMiddleware, leitoresApp.manutLeitores);
+router.get('/InsertLeitores', authenticationMiddleware, leitoresApp.insertLeitor); 
+router.get('/UpdateLeitor/:id', authenticationMiddleware, leitoresApp.updateLeitor); 
 
-router.get('/ManutLeitores', authenticationMiddleware, leitoresApp.manutLeitores); 
-/*router.get('/InsertContas', authenticationMiddleware, contasApp.insertContas); 
-router.get('/ViewConta/:id', authenticationMiddleware, contasApp.ViewConta); 
-router.get('/UpdateConta/:id', authenticationMiddleware, contasApp.UpdateConta); 
-
-router.post('/InsertContas', authenticationMiddleware, contasApp.insertContas); 
-router.post('/UpdateContas', authenticationMiddleware, contasApp.UpdateConta); 
-router.post('/DeleteContas', authenticationMiddleware, contasApp.DeleteConta); */
+router.post('/InsertLeitor', authenticationMiddleware, leitoresApp.insertLeitor); 
+router.post('/UpdateLeitor', authenticationMiddleware, leitoresApp.updateLeitor); 
+router.post('/DeleteLeitor', authenticationMiddleware, leitoresApp.deleteLeitor); 
 
 module.exports = router;

@@ -96,16 +96,15 @@
                                         alert("Erro de conexão ao salvar.");
                                     });
                             }
-
-                            async function excluirAutor() { 
+                            async function excluirAutor() {
                                 const autorId = document.getElementById('idAutor').value;
-                                //se n encontrar o id
+                                // se n encontrar o id
                                 if (! autorId) {
                                     alert("Erro: ID do autor não encontrado para exclusão.");
                                     return;
                                 }
                                 if (confirm("Você tem certeza que deseja deletar esse Autor?")) {
-                                    const formData = { 
+                                    const formData = {
                                         id: parseInt(autorId)
                                     };
                                     try {
@@ -118,7 +117,7 @@
                                         });
                                         const result = await response.json();
                                         if (result.status === "ok") {
-                                            alert("Autor deletado com sucesso!"); 
+                                            alert("Autor deletado com sucesso!");
                                             window.location.href = "/autores/ConsultarAutores";
                                         } else {
                                             alert (`Erro ao deletar autor: ${
@@ -131,8 +130,6 @@
                                     }
                                 }
                             }
-
-
                             window.onload = function () { // Verifica se id está presente ou seja edição
                                 const autorId = document.getElementById('idAutor').value;
                                 if (autorId) {
@@ -149,3 +146,175 @@
                             };
                         </script>
                     {% endblock %}
+    {
+    data.id if data}
+}").
+
+    O botão Salvar agora é type="button" e chama a função salvarLeitor().
+
+HTML {
+    % extends "templates/base.html" %
+}
+    {
+    % block content %
+}
+    <style>
+        .form-container {
+        /* Centralizado e um pouco menor, como no exemplo de Autor */
+        max - width : 650 px;
+        margin : 0 auto;
+        padding - top : 30 px;
+    }
+        .card-manut {
+        border - radius : 10 px;
+        box - shadow : 0 4 px 12 px rgba(0, 0, 0, 0.05);
+    }
+        .card-header-custom {
+        background - color : #28a745;
+        color : white;
+        border - bottom : none;
+        border - radius : 10 px 10 px 0 0;
+    }
+        .btn-action {
+        min - width : 120 px;
+    } </style>
+    <div class="form-container">
+        <br>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item">
+                    <a href="/">Menu Principal</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    {
+                    {title}
+                }</li>
+            </ol>
+            <div class="card card-manut">
+                <div class="card-header card-header-custom">
+                    <h2 class="h5 mb-0">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Formulário de Manutenção | Leitor</h2>
+                </div>
+                <div class="card-body">
+                    <form id="formManutLeitor">
+                        <input type="hidden" id="idLeitor" name="idLeitor" value="{{ data.id if data }}">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome Completo</label>
+                                <input type="text" class="form-control" id="nome" name="nome" required placeholder="Digite o nome completo do leitor" value="{{ data.nome if data }}"></div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">E-mail</label>
+                                    <input type="email" class="form-control" id="email" name="email" required placeholder="Ex: leitor@exemplo.com" value="{{ data.email if data }}"></div>
+                                    <div class="mb-4">
+                                        <label for="telefone" class="form-label">Telefone</label>
+                                        <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Ex: (00) 90000-0000" value="{{ data.telefone if data }}"></div>
+                                        <div class="d-flex justify-content-between pt-3 border-top">
+                                            <button type="button" class="btn btn-success btn-action me-2" onclick="salvarLeitor()">
+                                                <i class="fas fa-save me-1"></i>
+                                                Salvar
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-action me-auto d-none" id="btnExcluir" onclick="excluirLeitor()">
+                                                <i class="fas fa-trash-alt me-1"></i>
+                                                Excluir
+                                            </button>
+                                            <a href="/leitores/ConsultarLeitores" class="btn btn-secondary btn-action">
+                                                <i class="fas fa-arrow-left me-1"></i>
+                                                Voltar
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            function salvarLeitor () { // Pega o ID (se estiver em edição, terá um valor)
+                                const leitorId = document.getElementById('idLeitor').value;
+                                // Define o endpoint: Update se tiver ID, Insert se não tiver
+                                const endpoint = leitorId
+                                    ? '/leitores/UpdateLeitor'
+                                    : '/leitores/InsertLeitor';
+                                // Coleta os dados do formulário
+                                const formData = {
+                                    id: leitorId || undefined,
+                                    nome: document.getElementById('nome').value,
+                                    email: document.getElementById('email').value,
+                                    telefone: document.getElementById('telefone').value
+                                };
+                                // Verifica se os campos obrigatórios estão preenchidos
+                                if (! formData.nome || ! formData.email) {
+                                    alert("Nome e E-mail são campos obrigatórios.");
+                                    return;
+                                }
+                                fetch(endpoint, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(formData)
+                                })
+                                    .then(response => response.json())
+                                    .then(result => {
+                                        if (result.status === "ok") {
+                                            alert("Leitor salvo com sucesso!");
+                                            window.location.href = "/leitores/ConsultarLeitores";
+                                        } else {
+                                            alert(`Erro ao salvar leitor: ${
+                                                result.msg
+                                            }`);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Erro na requisição:', error);
+                                        alert("Erro de conexão ao salvar.");
+                                    });
+                            }
+                            async function excluirLeitor () {
+                                const leitorId = document.getElementById('idLeitor').value;
+                                if (! leitorId) {
+                                    alert("Erro: ID do leitor não encontrado para exclusão.");
+                                    return;
+                                }
+                                if (confirm("Você tem certeza que deseja deletar este Leitor?")) {
+                                    const formData = {
+                                        id: parseInt(leitorId)
+                                    };
+                                    try {
+                                        const response = await fetch('/leitores/DeleteLeitor', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(formData)
+                                        });
+                                        const result = await response.json();
+                                        if (result.status === "ok") {
+                                            alert("Leitor deletado com sucesso!");
+                                            window.location.href = "/leitores/ConsultarLeitores";
+                                        } else {
+                                            alert(`Erro ao deletar leitor: ${
+                                                result.msg
+                                            }`);
+                                        }
+                                    } catch (error) {
+                                        console.error('Erro na requisição de exclusão:', error);
+                                        alert("Erro de conexão ao deletar o leitor.");
+                                    }
+                                }
+                            }
+                            window.onload = function () { // Verifica se o campo ID foi preenchido pelo servidor (modo Edição)
+                                const leitorId = document.getElementById('idLeitor').value;
+                                if (leitorId) {
+                                    document
+                                        .getElementById('btnExcluir')
+                                        .classList
+                                        .remove('d-none'); // Mostra o botão Excluir
+                                } else {
+                                    document
+                                        .getElementById('btnExcluir')
+                                        .classList
+                                        .add('d-none'); // Esconde o botão Excluir
+                                }
+                            };
+                        </script>
+                        {
+                        % endblock %
+                    }

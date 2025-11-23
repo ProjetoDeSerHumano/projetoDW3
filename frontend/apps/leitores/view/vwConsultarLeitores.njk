@@ -1,128 +1,121 @@
 {% extends "templates/base.html" %}
 {% block content %}
-<br>
-    <div class="container-fluid px-4">
-        <ol class="breadcrumb mb-4 mt-4">
-            <li class="breadcrumb-item">
-                <a href="/">Menu Principal</a>
-            </li>
-            <li class="breadcrumb-item active">Consulta de Leitores</li>
-        </ol>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-8">
-                <h1 class="h3 mb-0 text-primary">
-                    <i class="fas fa-search me-2"></i>
-                    {{ title }}
-                </h1>
-            </div>
-            <div class="col-md-4 text-end">
-                <a href="/leitores/ManutLeitores" class="btn btn-success">
-                    <i class="fas fa-plus me-1"></i>
-                    Cadastrar Novo Leitor
-                </a>
-            </div>
-        </div>
-        <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 col-md-8">
-                        <input
-                            type="text"
-                            id="searchInput"
-                            class="form-control"
-                            placeholder="Pesquisar por Nome, E-mail ou Telefone..."
-                            onkeyup="filterTable()"></div>
-                        <div class="col-12 col-md-4 d-grid">
-                            <button class="btn btn-primary" disabled>
-                                <i class="fas fa-filter me-1"></i>
-                                Aplicar Filtro</button>
-                        </div>
-                    </div>
-                    {% if erro %}
-                        <div class="alert alert-danger mt-3" role="alert">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            Erro ao carregar dados: {{ erro }}
-                        </div>
-                    {% endif %}
+    <br>
+        <div class="container-fluid px-4">
+            <ol class="breadcrumb mb-4 mt-4">
+                <li class="breadcrumb-item">
+                    <a href="/">Menu Principal</a>
+                </li>
+                <li class="breadcrumb-item active">Consulta de Leitores</li>
+            </ol>
+            <div class="row mb-3 align-items-center">
+                <div class="col-md-8">
+                    <h1 class="h3 mb-0 text-primary">
+                        <i class="fas fa-search me-2"></i>
+                        {{ title }}
+                    </h1>
                 </div>
             </div>
-            <div class="card shadow-lg mb-4">
+            <div class="card mb-4 shadow-sm">
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover table-bordered w-100" id="leitoresTable">
-                            <thead class="bg-light text-dark">
-                                <tr>
-                                    <th style="width: 10%;">ID</th>
-                                    <th style="width: 30%;">Nome</th>
-                                    <th style="width: 35%;">E-mail</th>
-                                    <th style="width: 15%;">Telefone</th>
-                                    <th class="text-center" style="width: 10%;">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if data %}
-                                    {% for leitor in data %}
-                                        <tr>
-                                            <td class="fw-bold">{{ leitor.id }}</td>
-                                            <td class="fw-bold">{{ leitor.nome }}</td>
-                                            <td>{{ leitor.email }}</td>
-                                            <td>{{ leitor.telefone }}</td>
-                                            <td class="text-center">
-                                                <a href="/leitores/ManutLeitor?id={{ leitor.id }}" title="Editar/Visualizar" class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                {% else %}
+                    <div class="row">
+                        <div class="col-12 col-md-8">
+                            <input
+                                type="text"
+                                id="searchInput"
+                                class="form-control"
+                                placeholder="Pesquisar por Nome, E-mail ou Telefone..."
+                                onkeyup="filterTable()"></div>
+                            <div class="col-md-4 text-end">
+                                <a href="/leitores/ManutLeitores" class="btn btn-success">
+                                    <i class="fas fa-plus me-1"></i>
+                                    Cadastrar Novo Leitor
+                                </a>
+                            </div>
+                        </div>
+                        {% if erro %}
+                            <div class="alert alert-danger mt-3" role="alert">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Erro ao carregar dados: {{ erro }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card shadow-lg mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered w-100" id="leitoresTable">
+                                <thead class="bg-light text-dark">
                                     <tr>
-                                        <td colspan="5" class="text-center text-muted">Nenhum leitor cadastrado ou erro ao carregar os dados.</td>
+                                        <th style="width: 10%;">ID</th>
+                                        <th style="width: 25%;">Nome</th>
+                                        <th style="width: 35%;">E-mail</th>
+                                        <th style="width: 20%;">Telefone</th>
+                                        <th class="text-center" style="width: 10%;">Ações</th>
                                     </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {% if data %}
+                                        {% for leitor in data %}
+                                            <tr>
+                                                <td class="fw-bold">{{ leitor.id }}</td>
+                                                <td class="fw-bold">{{ leitor.nome }}</td>
+                                                <td>{{ leitor.email }}</td>
+                                                <td>{{ leitor.telefone }}</td>
+                                                <td class="text-center">
+                                                    <a href="/leitores/ManutLeitores?id={{ leitor.id }}" title="Editar/Visualizar" class="btn btn-sm btn-warning">
+                                                        <i class="fas fa-edit"></i>
+                                                        Editar
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">Nenhum leitor cadastrado ou erro ao carregar os dados.</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <script>
-            // 🛑 JavaScript para o Mecanismo de Busca (Filtro da Tabela) 🛑
-            function filterTable() {
-                const input = document.getElementById('searchInput');
-                const filter = input.value.toUpperCase();
-                const table = document.getElementById('leitoresTable'); // Ajustado para leitoresTable
-                const tr = table.getElementsByTagName('tr');
-                // Itera sobre todas as linhas da tabela (começando após o cabeçalho)
-                for (let i = 1; i < tr.length; i++) {
-                    tr[i].style.display = "none";
-                    // Esconde a linha por padrão
-                    // Pega as células de Nome (índice 1), E-mail (índice 2) e Telefone (índice 3)
-                    const tdNome = tr[i].getElementsByTagName("td")[1];
-                    const tdEmail = tr[i].getElementsByTagName("td")[2];
-                    const tdTelefone = tr[i].getElementsByTagName("td")[3];
-                    if (tdNome || tdEmail || tdTelefone) {
-                        const nomeMatch = tdNome && tdNome
-                            .textContent
-                            .toUpperCase()
-                            .indexOf(filter) > -1;
-                        const emailMatch = tdEmail && tdEmail
-                            .textContent
-                            .toUpperCase()
-                            .indexOf(filter) > -1;
-                        const telefoneMatch = tdTelefone && tdTelefone
-                            .textContent
-                            .toUpperCase()
-                            .indexOf(filter) > -1;
-                        if (nomeMatch || emailMatch || telefoneMatch) {
-                            tr[i].style.display = ""; // Mostra a linha
+            <script>
+                // O mecanismo de busca já está correto para Nome, E-mail e Telefone
+                function filterTable() {
+                    const input = document.getElementById('searchInput');
+                    const filter = input.value.toUpperCase();
+                    const table = document.getElementById('leitoresTable');
+                    const tr = table.getElementsByTagName('tr');
+                    for (let i = 1; i < tr.length; i++) {
+                        tr[i].style.display = "none";
+                        const tdNome = tr[i].getElementsByTagName("td")[1];
+                        const tdEmail = tr[i].getElementsByTagName("td")[2];
+                        const tdTelefone = tr[i].getElementsByTagName("td")[3];
+                        if (tdNome || tdEmail || tdTelefone) {
+                            const nomeMatch = tdNome && tdNome
+                                .textContent
+                                .toUpperCase()
+                                .indexOf(filter) > -1;
+                            const emailMatch = tdEmail && tdEmail
+                                .textContent
+                                .toUpperCase()
+                                .indexOf(filter) > -1;
+                            const telefoneMatch = tdTelefone && tdTelefone
+                                .textContent
+                                .toUpperCase()
+                                .indexOf(filter) > -1;
+                            if (nomeMatch || emailMatch || telefoneMatch) {
+                                tr[i].style.display = ""; // Mostra a linha
+                            }
                         }
                     }
                 }
-            }
-            window.onload = function () {
-                if (typeof windowOnLoad === 'function') {
-                    windowOnLoad();
-                }
-            };
-        </script>
-    {% endblock %}
+                window.onload = function () {
+                    if (typeof windowOnLoad === 'function') {
+                        windowOnLoad();
+                    }
+                };
+            </script>
+        {% endblock %}
