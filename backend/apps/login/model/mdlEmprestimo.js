@@ -48,7 +48,7 @@ const insertEmprestimo = async (registroPar) => {
 const updateEmprestimo = async (registroPar) => {
     return (
         await db.query(
-            'UPDATE Emprestimo SET LeitorID = $2, LivroID = $3, DataEmprestimo = $4, DataDevoluçaoPrevista = $5, Status = $6 WHERE ID = $1 AND Removido = false RETURNING *',
+            'UPDATE Emprestimo SET LeitorID = $2, LivroID = $3, DataEmprestimo = $4, DataDevolucaoPrevista = $5, Status = $6 WHERE ID = $1 AND Removido = false RETURNING *',
             [
                 registroPar.id,
                 registroPar.leitorid,
