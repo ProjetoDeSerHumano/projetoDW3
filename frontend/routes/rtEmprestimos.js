@@ -25,6 +25,8 @@ router.get('/', authenticationMiddleware, (req, res) => {
 // Rotas GET (Visualização/Carregamento de Página)
 router.get('/ConsultarEmprestimos', authenticationMiddleware, emprestimosApp.consultarEmprestimos);
 router.get('/ManutEmprestimos', authenticationMiddleware, emprestimosApp.manutEmprestimos); 
+router.get('/InsertEmprestimo', authenticationMiddleware, emprestimosApp.insertEmprestimo); 
+router.get('/UpdateEmprestimo/:id', authenticationMiddleware, emprestimosApp.updateEmprestimo); 
 
 // Rotas POST (Manipulação de Dados via AJAX)
 router.post('/InsertEmprestimo', authenticationMiddleware, emprestimosApp.insertEmprestimo);

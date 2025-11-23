@@ -1,27 +1,25 @@
-
-    {
-    % block content %
-}
+{% extends "templates/base.html" %}
+{% block content %}
     <style>
         .form-container {
-        max - width : 650 px;
-        margin : 0 auto;
-        padding - top : 50 px;
-    }
+            max-width: 650 px;
+            margin: 0 auto;
+            padding-top: 50 px;
+        }
         .card-manut {
-        border - radius : 10 px;
-        box - shadow : 0 4 px 12 px rgba(0, 0, 0, 0.05);
-    }
+            border-radius: 10 px;
+            box-shadow: 0 4 px 12 px rgba(0, 0, 0, 0.05);
+        }
         .card-header-custom {
-        /* Cor Info/Azul para Empréstimos */
-        background - color : #17a2b8;
-        color : white;
-        border - bottom : none;
-        border - radius : 10 px 10 px 0 0;
-    }
+            background-color: #17a2b8;
+            color: white;
+            border-bottom: none;
+            border-radius: 10 px 10 px 0 0;
+        }
         .btn-action {
-        min - width : 120 px;
-    } </style>
+            min-width: 120 px;
+        }
+    </style>
     <div class="form-container">
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item">
@@ -43,31 +41,20 @@
                                 <label for="leitorID" class="form-label">Leitor</label>
                                 <select class="form-select" id="leitorID" name="leitorid" required>
                                     <option value="">Selecione o Leitor</option>
-                                    {
-                                    % for leitor in leitores %
-                                }
-                                    <option value="{{ leitor.id }}" {% if data and data.leitorid == leitor.id %} selected {% endif %}>
-                                        {
-                                        {leitor.nome}
-                                    }</option>
-                                    {
-                                    % endfor %
-                                } </select>
+                                    {% for leitor in leitores %}
+                                        <option value="{{ leitor.id }}" {% if data and data.leitorid == leitor.id %} selected {% endif %}>{{ leitor.nome }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="livroID" class="form-label">Livro</label>
                                 <select class="form-select" id="livroID" name="livroid" required>
                                     <option value="">Selecione o Livro</option>
-                                    {
-                                    % for livro in livros %
-                                }
-                                    <option value="{{ livro.id }}" {% if data and data.livroid == livro.id %} selected {% endif %}>
-                                        {
-                                        {livro.titulo}
-                                    }</option>
-                                    {
-                                    % endfor %
-                                } </select>
+                                    {% for livro in livros %}
+                                        <option value="{{ livro.id }}" {% if data and data.livroid == livro.id %} selected {% endif %}>
+                                            {{ livro.titulo }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -114,7 +101,6 @@
                         const endpoint = idEmprestimo
                             ? '/emprestimos/UpdateEmprestimo'
                             : '/emprestimos/InsertEmprestimo';
-                        // Coletando dados com chaves em minúsculas para consistência com o DB
                         const formData = {
                             id: idEmprestimo || undefined,
                             leitorid: document.getElementById('leitorID').value,
@@ -140,7 +126,7 @@
                                     alert("Empréstimo salvo com sucesso!");
                                     window.location.href = "/emprestimos/ConsultarEmprestimos";
                                 } else {
-                                    alert(`Erro ao salvar empréstimo: ${
+                                    alert (`Erro ao salvar empréstimo: ${
                                         result.msg
                                     }`);
                                 }
@@ -173,7 +159,7 @@
                                     alert("Empréstimo excluído com sucesso!");
                                     window.location.href = "/emprestimos/ConsultarEmprestimos";
                                 } else {
-                                    alert(`Erro ao excluir empréstimo: ${
+                                    alert (`Erro ao excluir empréstimo: ${
                                         result.msg
                                     }`);
                                 }
@@ -186,7 +172,7 @@
                     window.onload = function () {
                         const params = new URLSearchParams(window.location.search);
                         const emprestimoId = params.get('id');
-                        if (emprestimoId) { 
+                        if (emprestimoId) {
                             document
                                 .getElementById('btnExcluir')
                                 .classList
@@ -199,6 +185,4 @@
                         }
                     };
                 </script>
-                {
-                % endblock %
-            }
+            {% endblock %}
