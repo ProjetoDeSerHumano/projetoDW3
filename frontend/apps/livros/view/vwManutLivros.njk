@@ -1,8 +1,15 @@
+Com certeza. Para resolver o último erro de null value no campo edicaocusto, o problema é a inconsistência no nome da chave entre o seu JavaScript e o banco de dados. O banco espera edicaocusto (tudo minúsculo).
+
+Aqui está o código completo e corrigido do template de Manutenção de Livros (vwManutLivros.njk), garantindo que todas as chaves obrigatórias sejam enviadas em minúsculo: autorid, datapublicacao, e edicaocusto.
+
+💾 Template vwManutLivros.njk Corrigido
+
+HTML
+
 {% extends "templates/base.html" %}
 {% block content %}
     <style>
         .form-container {
-            /* Mantendo o tamanho ajustado para o formulário */
             max-width: 650px;
             margin: 0 auto;
             padding-top: 50px;
@@ -12,7 +19,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
         .card-header-custom {
-            /* Cor Danger/Vermelho do menu para Livros (Gerenciamento e Manutenção) */
             background-color: #dc3545;
             color: white;
             border-bottom: none;
@@ -36,24 +42,26 @@
                     Formulário de Manutenção | Livro</h2>
             </div>
             <div class="card-body">
-                <form id="formManutLivro" method="POST" action="/livros/salvar">
-                    <input type="hidden" id="idLivro" name="idLivro" value="">
+                <form id="formManutLivro">
+                    <input type="hidden" id="idLivro" name="idLivro" value="{{ data.id if data }}">
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título do Livro</label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" required placeholder="Ex: O Senhor dos Anéis"></div>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required placeholder="Ex: O Senhor dos Anéis" value="{{ data.titulo if data }}"></div>
                             <div class="mb-3">
                                 <label for="autorID" class="form-label">Autor</label>
-                                <select class="form-select" id="autorID" name="autorID" required>
+                                <select class="form-select" id="autorID" name="autorid" required> 
                                     <option value="">Selecione um Autor</option>
                                     {% for autor in autores %}
-                                        <option value="{{ autor.id }}">{{ autor.nome }}</option>
+                                        <option value="{{ autor.id }}" {% if data and data.autorid == autor.id %}selected{% endif %}>
+                                            {{ autor.nome }}
+                                        </option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <label for="dataPublicacao" class="form-label">Data de Publicação</label>
-                                    <input type="date" class="form-control" id="dataPublicacao" name="dataPublicacao" required></div>
+                                    <input type="date" class="form-control" id="dataPublicacao" name="datapublicacao" required value="{{ data.datapublicacao if data }}"></div>
                                     <div class="col-md-6 mb-4">
                                         <label for="edicaoCusto" class="form-label">Custo/Valor (R$)</label>
                                         <input
@@ -61,12 +69,12 @@
                                             step="0.01"
                                             class="form-control"
                                             id="edicaoCusto"
-                                            name="edicaoCusto"
-                                            required
-                                            placeholder="Ex: 50.50"></div>
+                                            name="edicaocusto" required
+                                            placeholder="Ex: 50.50"
+                                            value="{{ data.edicaocusto if data }}"></div>
                                     </div>
                                     <div class="d-flex justify-content-between pt-3 border-top">
-                                        <button type="submit" class="btn btn-danger btn-action me-2">
+                                        <button type="button" class="btn btn-danger btn-action me-2" onclick="salvarLivro()">
                                             <i class="fas fa-save me-1"></i>
                                             Salvar
                                         </button>
@@ -84,23 +92,79 @@
                         </div>
                     </div>
                     <script>
-                        // Funções JS (carregarDadosLivro, excluirLivro, window.onload)
-                        function carregarDadosLivro(id) { // Implementação real buscaria os dados do Livro e preencheria o formulário
-                            console.log('Carregando dados do Livro ID:', id);
+                        function salvarLivro() {
+                            const livroId = document.getElementById('idLivro').value;
+                            const endpoint = livroId
+                                ? '/livros/UpdateLivro'
+                                : '/livros/InsertLivro';
+                            const formData = {
+                                id: livroId || undefined,
+                                titulo: document.getElementById('titulo').value,
+                                
+                                // Chaves padronizadas para minúsculas
+                                autorid: document.getElementById('autorID').value,
+                                datapublicacao: document.getElementById('dataPublicacao').value, 
+                                edicaocusto: document.getElementById('edicaoCusto').value // CORREÇÃO FINAL no JS
+                            };
+                            if (! formData.titulo || ! formData.autorid || ! formData.datapublicacao || ! formData.edicaocusto) {
+                                alert("Por favor, preencha todos os campos obrigatórios.");
+                                return;
+                            }
+                            fetch(endpoint, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(formData)
+                            })
+                                .then(response => response.json())
+                                .then(result => {
+                                    if (result.status === "ok") {
+                                        alert("Livro salvo com sucesso!");
+                                        window.location.href = "/livros/ConsultarLivros";
+                                    } else {
+                                        alert (`Erro ao salvar livro: ${result.msg}`);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Erro na requisição:', error);
+                                    alert("Erro de conexão ao salvar.");
+                                });
                         }
-                        function excluirLivro() {
-                            if (confirm('Tem certeza que deseja excluir este Livro?')) {
-                                const id = document.getElementById('idLivro').value;
-                                console.log('Excluindo Livro ID:', id);
-                                // Redirecionar após exclusão
+                        async function excluirLivro() {
+                            const livroId = document.getElementById('idLivro').value;
+                            if (! livroId) {
+                                alert("Erro: ID do livro não encontrado para exclusão.");
+                                return;
+                            }
+                            if (confirm("Você tem certeza que deseja deletar este Livro?")) {
+                                const formData = {
+                                    id: parseInt(livroId)
+                                };
+                                try {
+                                    const response = await fetch('/livros/DeleteLivro', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(formData)
+                                    });
+                                    const result = await response.json();
+                                    if (result.status === "ok") {
+                                        alert("Livro deletado com sucesso!");
+                                        window.location.href = "/livros/ConsultarLivros";
+                                    } else {
+                                        alert (`Erro ao deletar livro: ${result.msg}`);
+                                    }
+                                } catch (error) {
+                                    console.error('Erro na requisição de exclusão:', error);
+                                    alert("Erro de conexão ao deletar o livro.");
+                                }
                             }
                         }
                         window.onload = function () {
-                            const params = new URLSearchParams(window.location.search);
-                            // Verifica se estamos em modo de Edição/Visualização
-                            const livroId = params.get('id');
+                            const livroId = document.getElementById('idLivro').value;
                             if (livroId) {
-                                carregarDadosLivro(livroId);
                                 document
                                     .getElementById('btnExcluir')
                                     .classList
