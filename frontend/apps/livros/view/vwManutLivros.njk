@@ -1,11 +1,3 @@
-Com certeza. Para resolver o último erro de null value no campo edicaocusto, o problema é a inconsistência no nome da chave entre o seu JavaScript e o banco de dados. O banco espera edicaocusto (tudo minúsculo).
-
-Aqui está o código completo e corrigido do template de Manutenção de Livros (vwManutLivros.njk), garantindo que todas as chaves obrigatórias sejam enviadas em minúsculo: autorid, datapublicacao, e edicaocusto.
-
-💾 Template vwManutLivros.njk Corrigido
-
-HTML
-
 {% extends "templates/base.html" %}
 {% block content %}
     <style>

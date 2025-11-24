@@ -65,20 +65,17 @@
                             </div>
                         </div>
                         <script>
-                            function salvarLeitor() { // Pega o ID (se estiver em edição, terá um valor)
+                            function salvarLeitor() { // Pega o ID 
                                 const leitorId = document.getElementById('idLeitor').value;
-                                // Define o endpoint: Update se tiver ID, Insert se não tiver
                                 const endpoint = leitorId
                                     ? '/leitores/UpdateLeitor'
                                     : '/leitores/InsertLeitor';
-                                // Coleta os dados do formulário
                                 const formData = {
                                     id: leitorId || undefined,
                                     nome: document.getElementById('nome').value,
                                     email: document.getElementById('email').value,
                                     telefone: document.getElementById('telefone').value
                                 };
-                                // Verifica se os campos obrigatórios estão preenchidos
                                 if (! formData.nome || ! formData.email) {
                                     alert("Nome e E-mail são campos obrigatórios.");
                                     return;
@@ -139,7 +136,7 @@
                                     }
                                 }
                             }
-                            window.onload = function () { // Verifica se o campo ID foi preenchido pelo servidor (modo Edição)
+                            window.onload = function () { // Verifica se o campo ID foi preenchido pelo servidor
                                 const leitorId = document.getElementById('idLeitor').value;
                                 if (leitorId) {
                                     document

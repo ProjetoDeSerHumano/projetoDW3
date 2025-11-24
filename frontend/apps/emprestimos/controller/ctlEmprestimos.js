@@ -1,7 +1,6 @@
 const axios = require("axios");
 const moment = require("moment");
 
-// Funções Auxiliares para Formatação de Data
 const formatarParaExibicao = (dataISO) => {
     return dataISO ? moment(dataISO).format('DD/MM/YYYY') : '';
 };
@@ -9,8 +8,6 @@ const formatarParaExibicao = (dataISO) => {
 const formatarParaInputDate = (dataISO) => {
     return dataISO ? moment(dataISO).format('YYYY-MM-DD') : '';
 };
-
-// --- ROTAS GET (VISUALIZAÇÃO DE DADOS E PÁGINAS) ---
 
 // 1. Consulta de Empréstimos
 const consultarEmprestimos = async (req, res) =>
@@ -66,7 +63,6 @@ const manutEmprestimos = async (req, res) =>
         const apiUrl = process.env.SERVIDOR_DW3Back;
 
         try {
-            // Busca a lista de Leitores e Livros simultaneamente (necessário para os <select>)
             const [respLeitores, respLivros] = await Promise.all([
                 axios.get(apiUrl + "/GetAllLeitores", { headers: { Authorization: `Bearer ${token}` } }),
                 axios.get(apiUrl + "/GetAllLivros", { headers: { Authorization: `Bearer ${token}` } })
@@ -116,7 +112,6 @@ const manutEmprestimos = async (req, res) =>
         }
     })();
 
-// --- ROTAS POST (OPERAÇÕES CRUD) ---
 
 // 3. Inserir Empréstimo
 const insertEmprestimo = async (req, res) =>
@@ -132,7 +127,6 @@ const insertEmprestimo = async (req, res) =>
             return res.json({ status: "ok", msg: "Empréstimo registrado com sucesso.", data: response.data, erro: null });
         } catch (error) {
             let remoteMSG = "Erro ao registrar Empréstimo.";
-            // ... (Lógica de tratamento de erro) ...
             return res.json({ status: "Error", msg: remoteMSG, data: null, erro: null });
         }
     })();

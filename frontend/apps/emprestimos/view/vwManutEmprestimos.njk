@@ -2,22 +2,22 @@
 {% block content %}
     <style>
         .form-container {
-            max-width: 650 px;
+            max-width: 650px;
             margin: 0 auto;
-            padding-top: 50 px;
+            padding-top: 50px;
         }
         .card-manut {
-            border-radius: 10 px;
-            box-shadow: 0 4 px 12 px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
         .card-header-custom {
             background-color: #17a2b8;
             color: white;
             border-bottom: none;
-            border-radius: 10 px 10 px 0 0;
+            border-radius: 10px 10px 0 0;
         }
         .btn-action {
-            min-width: 120 px;
+            min-width: 120px;
         }
     </style>
     <div class="form-container">
@@ -101,12 +101,23 @@
                         const endpoint = idEmprestimo
                             ? '/emprestimos/UpdateEmprestimo'
                             : '/emprestimos/InsertEmprestimo';
+                        const dataEmprestimoStr = document.getElementById('dataEmprestimo').value;
+                        const dataDevolucaoStr = document.getElementById('dataDevolucaoPrevista').value;
+                        
+                        if (dataEmprestimoStr && dataDevolucaoStr) {
+                            const dataEmprestimo = new Date(dataEmprestimoStr);
+                            const dataDevolucao = new Date(dataDevolucaoStr);
+                            if (dataDevolucao < dataEmprestimo) {
+                                alert("A data de Devolução Prevista não pode ser anterior à data do Empréstimo.");
+                                return; 
+                            }
+                        }
                         const formData = {
                             id: idEmprestimo || undefined,
                             leitorid: document.getElementById('leitorID').value,
                             livroid: document.getElementById('livroID').value,
-                            dataemprestimo: document.getElementById('dataEmprestimo').value,
-                            datadevolucaoprevista: document.getElementById('dataDevolucaoPrevista').value,
+                            dataemprestimo: dataEmprestimoStr,
+                            datadevolucaoprevista: dataDevolucaoStr,
                             status: document.getElementById('status').value
                         };
                         if (! formData.leitorid || ! formData.livroid || ! formData.dataemprestimo || ! formData.status) {

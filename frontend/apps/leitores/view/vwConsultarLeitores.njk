@@ -82,7 +82,7 @@
                 </div>
             </div>
             <script>
-                // O mecanismo de busca já está correto para Nome, E-mail e Telefone
+                // mecanismo de busca
                 function filterTable() {
                     const input = document.getElementById('searchInput');
                     const filter = input.value.toUpperCase();
@@ -107,7 +107,7 @@
                                 .toUpperCase()
                                 .indexOf(filter) > -1;
                             if (nomeMatch || emailMatch || telefoneMatch) {
-                                tr[i].style.display = ""; // Mostra a linha
+                                tr[i].style.display = ""; 
                             }
                         }
                     }

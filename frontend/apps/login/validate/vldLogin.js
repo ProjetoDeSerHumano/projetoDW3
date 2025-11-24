@@ -20,14 +20,6 @@ const constraints = {
 
 function Validar(formDataPar) {
 
-    
-    // Perform validation
-
-    // Convert FormData to plain object
-    // let formDataObject = {};
-    // for (let [key, value] of formDataPar.entries()) {
-    //     formDataObject[key] = value;
-    // }
     const errors = validate(formDataPar, constraints);
 
     // Display validation errors if any

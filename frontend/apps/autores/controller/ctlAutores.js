@@ -129,7 +129,9 @@ const insertAutor = async (req, res) =>
                     data: response.data,
                     erro: null,
                 });
-            } catch (error) {
+            } 
+            
+            catch (error) {
                 console.error('[ctlAutores|InsertAutor] Erro ao inserir dados no servidor backend:', error.message);
                 return res.json({
                     status: "Error",
@@ -162,7 +164,9 @@ const updateAutor = async (req, res) =>
                 data: response.data,
                 erro: null,
             });
-        } catch (error) {
+        } 
+        
+        catch (error) {
             console.error('[ctlAutores.js|UpdateAutor] Erro ao atualizar dados no servidor backend:', error.message);
 
             let remoteMSG = "Erro desconhecido ao atualizar.";
@@ -203,7 +207,9 @@ const deleteAutor = async (req, res) =>
                 data: response.data,
                 erro: null,
             });
-        } catch (error) {
+        } 
+        //CATCH DE ERROS
+        catch (error) {
             console.error('[ctlAutores.js|DeleteAutor] Erro ao deletar dados no servidor backend:', error.message);
             return res.json({
                 status: "Error",

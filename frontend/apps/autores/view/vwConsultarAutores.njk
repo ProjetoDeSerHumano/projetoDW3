@@ -65,50 +65,51 @@
                                                         <i class="fas fa-edit"></i>
                                                         Editar
                                                     </a>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="4" class="text-center text-muted">Nenhum autor cadastrado ou erro ao carregar os dados.</td>
+                                                </a>
+                                            </td>
                                         </tr>
-                                    {% endif %}
-                                </tbody>
-                            </table>
-                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">Nenhum autor cadastrado ou erro ao carregar os dados.</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <script>
-                // mecanismo de busca
-                function filterTable() {
-                    const input = document.getElementById('searchInput');
-                    const filter = input.value.toUpperCase();
-                    const table = document.getElementById('autoresTable');
-                    const tr = table.getElementsByTagName('tr');
-                    for (let i = 1; i < tr.length; i++) {
-                        tr[i].style.display = "none";
-                        const tdNome = tr[i].getElementsByTagName("td")[1];
-                        const tdNacionalidade = tr[i].getElementsByTagName("td")[2];
-                        if (tdNome || tdNacionalidade) {
-                            const nomeMatch = tdNome && tdNome
-                                .textContent
-                                .toUpperCase()
-                                .indexOf(filter) > -1;
-                            const nacionalidadeMatch = tdNacionalidade && tdNacionalidade
-                                .textContent
-                                .toUpperCase()
-                                .indexOf(filter) > -1;
-                            if (nomeMatch || nacionalidadeMatch) {
-                                tr[i].style.display = "";
-                            }
+        </div>
+        <script>
+            // mecanismo de busca
+            function filterTable() {
+                const input = document.getElementById('searchInput');
+                const filter = input.value.toUpperCase();
+                const table = document.getElementById('autoresTable');
+                const tr = table.getElementsByTagName('tr');
+                for (let i = 1; i < tr.length; i++) {
+                    tr[i].style.display = "none";
+                    const tdNome = tr[i].getElementsByTagName("td")[1];
+                    const tdNacionalidade = tr[i].getElementsByTagName("td")[2];
+                    if (tdNome || tdNacionalidade) {
+                        const nomeMatch = tdNome && tdNome
+                            .textContent
+                            .toUpperCase()
+                            .indexOf(filter) > -1;
+                        const nacionalidadeMatch = tdNacionalidade && tdNacionalidade
+                            .textContent
+                            .toUpperCase()
+                            .indexOf(filter) > -1;
+                        if (nomeMatch || nacionalidadeMatch) {
+                            tr[i].style.display = "";
                         }
                     }
                 }
-                window.onload = function () {
-                    if (typeof windowOnLoad === 'function') {
-                        windowOnLoad();
-                    }
-                };
-            </script>
-        {% endblock %}
+            }
+            window.onload = function () {
+                if (typeof windowOnLoad === 'function') {
+                    windowOnLoad();
+                }
+            };
+        </script>
+    {% endblock %}
