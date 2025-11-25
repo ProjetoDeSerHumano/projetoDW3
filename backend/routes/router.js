@@ -16,32 +16,32 @@ routerApp.get("/", (req, res) => {
 });
 
 //Rotas AUTOR
-routerApp.get("/getAllAutores", appAutor.getAllAutores);
-routerApp.post("/getAutorByID", appAutor.getAutorByID);
-routerApp.post("/insertAutor", appAutor.insertAutor);
-routerApp.post("/updateAutor", appAutor.updateAutor);
-routerApp.post("/deleteAutor", appAutor.deleteAutor);
+routerApp.get("/getAllAutores", appLogin.AutenticaJWT, appAutor.getAllAutores);
+routerApp.post("/getAutorByID", appLogin.AutenticaJWT, appAutor.getAutorByID);
+routerApp.post("/insertAutor", appLogin.AutenticaJWT, appAutor.insertAutor);
+routerApp.post("/updateAutor", appLogin.AutenticaJWT, appAutor.updateAutor);
+routerApp.post("/deleteAutor", appLogin.AutenticaJWT, appAutor.deleteAutor);
 
 //Rotas LIVRO
-routerApp.get("/getAllLivros", appLivro.getAllLivros);
-routerApp.post("/getLivroByID", appLivro.getLivroByID);
-routerApp.post("/insertLivro", appLivro.insertLivro);
-routerApp.post("/updateLivro", appLivro.updateLivro);
-routerApp.post("/deleteLivro", appLivro.deleteLivro);
+routerApp.get("/getAllLivros", appLogin.AutenticaJWT, appLivro.getAllLivros);
+routerApp.post("/getLivroByID", appLogin.AutenticaJWT, appLivro.getLivroByID);
+routerApp.post("/insertLivro", appLogin.AutenticaJWT, appLivro.insertLivro);
+routerApp.post("/updateLivro", appLogin.AutenticaJWT, appLivro.updateLivro);
+routerApp.post("/deleteLivro", appLogin.AutenticaJWT, appLivro.deleteLivro);
 
 //Rotas LEITOR
-routerApp.get("/getAllLeitores", appLeitor.getAllLeitores);
-routerApp.post("/getLeitorByID", appLeitor.getLeitorByID);
-routerApp.post("/insertLeitor", appLeitor.insertLeitor);
-routerApp.post("/updateLeitor", appLeitor.updateLeitor);
-routerApp.post("/deleteLeitor", appLeitor.deleteLeitor);
+routerApp.get("/getAllLeitores", appLogin.AutenticaJWT, appLeitor.getAllLeitores);
+routerApp.post("/getLeitorByID", appLogin.AutenticaJWT, appLeitor.getLeitorByID);
+routerApp.post("/insertLeitor", appLogin.AutenticaJWT, appLeitor.insertLeitor);
+routerApp.post("/updateLeitor", appLogin.AutenticaJWT, appLeitor.updateLeitor);
+routerApp.post("/deleteLeitor", appLogin.AutenticaJWT, appLeitor.deleteLeitor);
 
 //Rotas EMPRESTIMO
-routerApp.get("/getAllEmprestimos", appEmprestimos.getAllEmprestimos);
-routerApp.post("/getEmprestimoByID", appEmprestimos.getEmprestimosByID);
-routerApp.post("/insertEmprestimo", appEmprestimos.insertEmprestimo);
-routerApp.post("/updateEmprestimo", appEmprestimos.updateEmprestimo);
-routerApp.post("/deleteEmprestimo", appEmprestimos.deleteEmprestimo);
+routerApp.get("/getAllEmprestimos", appLogin.AutenticaJWT, appEmprestimos.getAllEmprestimos);
+routerApp.post("/getEmprestimoByID", appLogin.AutenticaJWT, appEmprestimos.getEmprestimosByID);
+routerApp.post("/insertEmprestimo", appLogin.AutenticaJWT, appEmprestimos.insertEmprestimo);
+routerApp.post("/updateEmprestimo", appLogin.AutenticaJWT, appEmprestimos.updateEmprestimo);
+routerApp.post("/deleteEmprestimo", appLogin.AutenticaJWT, appEmprestimos.deleteEmprestimo);
 
 // Rota Login
 routerApp.post("/Login", appLogin.Login);
